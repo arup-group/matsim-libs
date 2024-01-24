@@ -68,7 +68,7 @@ import java.util.Map;
  * @author michaz
  */
 public final class EventsToLegs
-		implements PersonDepartureEventHandler, PersonStuckEventHanlder, PersonArrivalEventHandler, LinkEnterEventHandler,
+		implements PersonDepartureEventHandler, PersonStuckEventHandler, PersonArrivalEventHandler, LinkEnterEventHandler,
 		TeleportationArrivalEventHandler, TransitDriverStartsEventHandler, PersonEntersVehicleEventHandler,
 		VehicleArrivesAtFacilityEventHandler, VehicleEntersTrafficEventHandler, VehicleLeavesTrafficEventHandler {
 
