@@ -36,7 +36,7 @@ import jakarta.inject.Inject;
  *
  * @author mrieser / Simunto GmbH
  */
-public class EventsToLegsAndActivities implements ActivityStartEventHandler, ActivityEndEventHandler, PersonDepartureEventHandler, PersonArrivalEventHandler, LinkEnterEventHandler,
+public class EventsToLegsAndActivities implements ActivityStartEventHandler, ActivityEndEventHandler, PersonDepartureEventHandler, PersonStuckEventHandler, PersonArrivalEventHandler, LinkEnterEventHandler,
 		TeleportationArrivalEventHandler, TransitDriverStartsEventHandler, PersonEntersVehicleEventHandler, VehicleArrivesAtFacilityEventHandler, VehicleEntersTrafficEventHandler, VehicleLeavesTrafficEventHandler {
 
 	private final EventsToLegs legsDelegate;
@@ -70,6 +70,11 @@ public class EventsToLegsAndActivities implements ActivityStartEventHandler, Act
 
 	@Override
 	public void handleEvent(PersonDepartureEvent event) {
+		this.legsDelegate.handleEvent(event);
+	}
+
+	@Override
+	public void handleEvent(PersonStuckEvent event) {
 		this.legsDelegate.handleEvent(event);
 	}
 
