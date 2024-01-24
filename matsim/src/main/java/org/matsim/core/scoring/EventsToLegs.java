@@ -30,6 +30,11 @@ import org.matsim.api.core.v01.network.Network;
 import org.matsim.api.core.v01.population.Leg;
 import org.matsim.api.core.v01.population.Person;
 import org.matsim.api.core.v01.population.Route;
+import org.matsim.api.core.v01.events.Event;
+import org.matsim.api.core.v01.events.LinkEnterEvent;
+import org.matsim.api.core.v01.events.LinkLeaveEvent;
+import org.matsim.api.core.v01.events.PersonStuckEvent;
+import org.matsim.core.events.EventsManagerModule;
 import org.matsim.core.api.experimental.events.TeleportationArrivalEvent;
 import org.matsim.core.api.experimental.events.VehicleArrivesAtFacilityEvent;
 import org.matsim.core.api.experimental.events.handler.TeleportationArrivalEventHandler;
@@ -63,7 +68,7 @@ import java.util.Map;
  * @author michaz
  */
 public final class EventsToLegs
-		implements PersonDepartureEventHandler, PersonArrivalEventHandler, LinkEnterEventHandler,
+		implements PersonDepartureEventHandler, PersonStuckEventHanlder, PersonArrivalEventHandler, LinkEnterEventHandler,
 		TeleportationArrivalEventHandler, TransitDriverStartsEventHandler, PersonEntersVehicleEventHandler,
 		VehicleArrivesAtFacilityEventHandler, VehicleEntersTrafficEventHandler, VehicleLeavesTrafficEventHandler {
 
@@ -192,6 +197,51 @@ public final class EventsToLegs
 		route.add(event.getLinkId());
 		experiencedRoutes.put(event.getPersonId(), route);
 	}
+
+	@Override
+	public void handleEvent(PersonStuckEvent event) {
+
+		// for ref, available info:
+		// https://github.com/matsim-org/matsim-libs/blob/ad0325abdcac00a08e0b93ca66d2dfb9a59bf745/matsim/src/main/java/org/matsim/api/core/v01/events/PersonStuckEvent.java
+
+		Leg leg = legs.get(event.getPersonId());
+
+		// mode
+		// Leg leg = PopulationUtils.createLeg(event.getLegMode());
+		// departure time
+		leg.setDepartureTime(event.getTime());
+		// attributes
+		leg.getAttributes().putAttribute(event.getEventType(), event.getTime());
+		legs.put(event.getPersonId(), leg);
+
+		LogManager.getLogger(this.getClass()).error("stuck agents");
+		LogManager.getLogger(this.getClass()).warn(event.getPersonId() + " stuck due to " + event.getEventType());
+
+	}
+
+//	public void handleEvent(Event event) {
+//		if (event instanceof PersonStuckEvent) {
+//			PersonStuckEvent stuckEvent = (PersonStuckEvent) event;
+//			createDummyEvent(stuckEvent);
+//		} else if (event instanceof LinkEnterEvent || event instanceof LinkLeaveEvent) {
+//		}
+//	}
+//
+//	public void createDummyEvent(PersonStuckEvent stuckEvent) {
+//
+////		String personId = stuckEvent.getPersonId().toString();
+////		String reason = stuckEvent.getEventType();
+//
+////		System.out.println("Dummy Event: Person " + personId + " stuck due to " + reason);
+//
+////		Leg leg = legs.get(stuckEvent.getPersonId());
+//
+//		Leg leg = PopulationUtils.createLeg(stuckEvent.getPersonId().toString());
+//		leg.getAttributes().putAttribute("GCtesting", stuckEvent.getTime());
+////		leg.getAttributes().putAttribute(stuckEvent.getEventType(), stuckEvent.getTime());
+//		legs.put(stuckEvent.getPersonId(), leg);
+//
+//	}
 
 	@Override
 	public void handleEvent(PersonEntersVehicleEvent event) {
