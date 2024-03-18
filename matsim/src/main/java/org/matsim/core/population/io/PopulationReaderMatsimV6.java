@@ -86,6 +86,7 @@ import com.google.inject.Inject;
 	private final static String ATTR_PLAN_SCORE = "score";
 	private final static String ATTR_PLAN_TYPE = "type";
 	private final static String ATTR_PLAN_SELECTED = "selected";
+	private final static String ATTR_PLAN_STUCK_STATUS = "status";
 	private final static String ATTR_ACT_TYPE = "type";
 	private final static String ATTR_ACT_X = "x";
 	private final static String ATTR_ACT_Y = "y";
