@@ -26,5 +26,9 @@ public interface BasicPlan {
 	public abstract void setScore(Double score);
 
 	public abstract Double getScore();
-	
+
+	public abstract void setStuckStatus(Boolean stuckStatus);
+
+	public abstract Boolean getStuckStatus();
+
 }
