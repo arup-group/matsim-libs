@@ -355,6 +355,7 @@ public final class PopulationUtils {
 
 	static class UnmodifiablePlan implements Plan {
 		private final Plan delegate;
+		private final Plan stuckStatus;
 		private final List<PlanElement> unmodifiablePlanElements;
 
 		public UnmodifiablePlan( Plan plan ) {
@@ -439,6 +440,9 @@ public final class PopulationUtils {
 		public Double getScore() {
 			return delegate.getScore();
 		}
+
+		@Override
+		public Boolean setStuckStatus() { return delegate.getStuckStatus(); }
 
 		@Override
 		public void setPerson(Person person) {

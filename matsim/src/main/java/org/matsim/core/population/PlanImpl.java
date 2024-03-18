@@ -47,6 +47,8 @@ import org.matsim.utils.objectattributes.attributable.AttributesImpl;
 	private Double score = null;
 	private Person person = null;
 
+	private Boolean stuckStatus = null;
+
 	private String type = null;
 
 	@SuppressWarnings("unused")
@@ -115,6 +117,14 @@ import org.matsim.utils.objectattributes.attributable.AttributesImpl;
 	public void setScore(final Double score) {
 		this.score = score;
 	}
+
+	@Override
+	public void setStuckStatus(final Boolean stuckStatus) {
+		this.stuckStatus = stuckStatus;
+	}
+
+	@Override
+	public final Boolean getStuckStatus() { return this.stuckStatus; }
 
     @Override
 	public String getType() {
